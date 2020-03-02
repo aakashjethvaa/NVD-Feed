@@ -33,10 +33,14 @@ psql
 To log in to the PostgreSQL server as the postgres user first you need to switch to the user postgres and then you can access a PostgreSQL prompt using the psql utility:
 
 1. Create a new PostgreSQL Role
-``` sudo su - postgres -c "createuser developer" ```
+
+``` sudo su - postgres -c "createuser developer"
+```
 
 2. Create a new PostgreSQL Database
-``` sudo su - postgres -c "createdb nvddb" ```
+
+``` sudo su - postgres -c "createdb nvddb" 
+```
 
 3. Grant privileges
 ``` sudo -u postgres psql
