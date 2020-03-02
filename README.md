@@ -33,29 +33,32 @@ psql
 To log in to the PostgreSQL server as the postgres user first you need to switch to the user postgres and then you can access a PostgreSQL prompt using the psql utility:
 
 1. Create a new PostgreSQL Role
-
 ```  
-sudo su - postgres -c "createuser developer"```
+sudo su - postgres -c "createuser developer" 
+```
 
 2. Create a new PostgreSQL Database
-
 ```  
-sudo su - postgres -c "createdb nvddb" ```
+sudo su - postgres -c "createdb nvddb" 
+```
 
 3. Grant privileges
-``` sudo -u postgres psql
-    grant all privileges on database nvddb to developer;
+``` 
+sudo -u postgres psql
+grant all privileges on database nvddb to developer;
 ```
 ### Python3-pip install
 
-```python3 -m pip install --user --upgrade pip
-   python3 -m pip --version
+```
+python3 -m pip install --user --upgrade pip
+python3 -m pip --version
 ```
 ### Setting up Virtual Enviroment
 
-``` python3 -m pip install --user virtualenv
-    python3 -m venv <YOUR_ENV_NAME>
-    source <YOUR_ENV_NAME>/bin/activate
+``` 
+python3 -m pip install --user virtualenv
+python3 -m venv <YOUR_ENV_NAME>
+source <YOUR_ENV_NAME>/bin/activate
 ```
 If you want to get out of the venv use  `deactivate`
 
