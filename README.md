@@ -9,4 +9,17 @@ NVD is now offering a vulnerability data feed using the JSON format. This data f
 * git
 * JSON
 
+## Source 
+[Nesta CMS] https://nvd.nist.gov/vuln/data-feeds#JSON_FEED
+
 ## Steps
+
+### Installing Python3
+
+``` 
+sudo apt-get update
+sudo apt-get install python3.6
+python3 -V
+
+```
+
