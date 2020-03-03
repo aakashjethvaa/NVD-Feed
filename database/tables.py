@@ -55,9 +55,61 @@ def store_impact(cve_id, impact_score_2, base_score_2, impact_score_3, base_scor
         record.save()
         # print('Saved impact')
 
+ProductCVSSProxy = DeferredThroughModel()
+
+class Product(Model):
+    """
+    Product Identification
+    """
+    # cve_id = ForeignKeyField(CVSS, backref='prod')
+    cpe22uri = TextField()
+    cpe23uri = TextField()
+    name = TextField()
+    version = TextField()
+    is_vulnerable = BooleanField(default=True)
+    created_ts = DateTimeField(unique=True)
+    cve_ids = ManyToManyField(CVSS, backref='products', through_model=ProductCVSSProxy)
+
+    class Meta:
+        database = db_connection.get_db()
+        db_table = 'product'
+        # indexes = (
+        #     # create a unique on name/version
+        #     (('name', 'version'), True),
+        # )
+
+    def save(self, *args, **kwargs):
+        self.created_ts = datetime.datetime.now()
+        super(Product, self).save(*args, **kwargs)
+
+def store_product(cpe22uri, cpe23uri, name, version, is_vulnerable):
+    with db_connection.get_db().atomic():
+        record = Product.create(cpe22uri=cpe22uri, cpe23uri=cpe23uri, name=name, version=version, is_vulnerable=is_vulnerable)
+        record.save()
+        return record
+
+class CVSSProduct(Model):
+    # product_id = ForeignKeyField(Product, db_column='product_id',index=True)
+    # cvss = ForeignKeyField(CVSS, db_column='cve_id',index=True)
+    cvss = ForeignKeyField(CVSS)
+    product = ForeignKeyField(Product)
+
+    class Meta:
+        database = db_connection.get_db()
+        db_table = 'cvss_product'
+
+    def save(self, *args, **kwargs):
+        super(CVSSProduct, self).save(*args, **kwargs)
+
+ProductCVSSProxy.set_model(CVSSProduct)
+
+def store_cvss_product(cvss, product):
+    with db_connection.get_db().atomic():
+        record = CVSSProduct.create(cvss=cvss, product=product)
+        record.save()
 
 def create_tables(database):
-    models = [CVSS,Impact]
+    models = [CVSS,Impact,Product, CVSSProduct]
     with database.atomic():
         database.drop_tables(list(reversed(models)), safe=True)
         print('creating')
