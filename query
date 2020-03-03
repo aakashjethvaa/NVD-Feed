@@ -1,0 +1,49 @@
+﻿select * from cvss;
+
+select * from impact;
+
+select * from product;
+
+select * from cvss_product;
+
+create index is_vulnerable_idx on product(is_vulnerable);
+
+create index impact_score_2_idx on impact(impact_score_2);
+
+select A.name, A.version, count(*) AS CNT
+from product as A left join cvss_product as B on A.id = B.product_id
+where A.is_vulnerable IS TRUE
+group by A.name, A.version
+order by CNT DESC
+limit 10;
+
+CREATE VIEW Top10Vulnerable_Product AS
+  select A.name, A.version, count(*) AS CNT
+  from product as A left join cvss_product as B on A.id = B.product_id
+  where A.is_vulnerable IS TRUE
+  group by A.name, A.version
+  order by CNT DESC
+  limit 10;
+
+SELECT * from Top10Vulnerable_Product;
+
+select ceil(impact_score_2) AS range, count(*), cve_id
+from impact
+group by ceil(impact_score_2), impact,cve_id
+order by range;
+
+select ceil(impact_score_2) AS range, count(*), cve_id
+from impact
+group by ceil(impact_score_2), impact,cve_id
+order by range;
+
+
+CREATE VIEW NoOfCVEs_PerWholeNum AS 
+  select ceil(impact_score_2) AS range, count(*), cve_id
+  from impact
+  group by ceil(impact_score_2), impact,cve_id
+  order by range;
+
+SELECT * from NoOfCVEs_PerWholeNum;
+
+
