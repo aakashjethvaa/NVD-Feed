@@ -85,9 +85,43 @@ Once the table is created we would run the parse.py for inserting and retrieve d
 
 ```python3 parse.py```
 
-Once we have pgadmin set up, we can run live queries to retrieve the data. We can also use our local system instead of Pgadmin. I have included #### Query #### named file which has list of all the query to be perform on the nvddb database
+Once we have pgadmin set up, we can run live queries to retrieve the data. We can also use our local system instead of Pgadmin. I have included **Query** named file which has list of all the query to be perform on the nvddb database
+
+Some of the views and queries :
+
+#### What are the top 10 most vulnerable products? (Based on the number of CVEsassociated with them on a version basis.)
+
+```
+CREATE VIEW Top10Vulnerable_Product AS
+  select A.name, A.version, count(*) AS CNT
+  from product as A left join cvss_product as B on A.id = B.product_id
+  where A.is_vulnerable IS TRUE
+  group by A.name, A.version
+  order by CNT DESC
+  limit 10;
+
+SELECT * from Top10Vulnerable_Product;
+
+```
+#### Show the breakdown of the number of CVEs per whole-number score (round up)
+
+``` 
+CREATE VIEW NoOfCVEs_PerWholeNum AS 
+  select ceil(impact_score_2) AS range, count(*), cve_id
+  from impact
+  group by ceil(impact_score_2), impact,cve_id
+  order by range;
+
+SELECT * from NoOfCVEs_PerWholeNum;
+
+```
+In this way, we can perform various queries of our database nvdb based on the ER_diagram and data available. 
+
+### Tools used
+
+* Microsoft Visual Studio code
+* Pgadmin
+* Git
 
 
-
-
-
+Thank you...
