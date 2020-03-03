@@ -92,6 +92,8 @@ Some of the views and queries :
 #### What are the top 10 most vulnerable products? (Based on the number of CVEsassociated with them on a version basis.)
 
 ```
+create index is_vulnerable_idx on product(is_vulnerable);
+
 CREATE VIEW Top10Vulnerable_Product AS
   select A.name, A.version, count(*) AS CNT
   from product as A left join cvss_product as B on A.id = B.product_id
@@ -106,6 +108,8 @@ SELECT * from Top10Vulnerable_Product;
 #### Show the breakdown of the number of CVEs per whole-number score (round up)
 
 ``` 
+create index impact_score_2_idx on impact(impact_score_2);
+
 CREATE VIEW NoOfCVEs_PerWholeNum AS 
   select ceil(impact_score_2) AS range, count(*), cve_id
   from impact
