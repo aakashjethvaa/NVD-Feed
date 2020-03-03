@@ -62,6 +62,8 @@ source <YOUR_ENV_NAME>/bin/activate
 ```
 If you want to get out of the venv use  `deactivate`
 
+### Steps to run the project
+
 Extracting all the CVE from the above URL
 
 ```python3 extractdata.py```
