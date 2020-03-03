@@ -29,8 +29,35 @@ def store_cvss(cve_id, description, published_date, last_modified_date):
         # print('Saved cvss')
         return record
 
+class Impact(Model):
+    cve_id = ForeignKeyField(CVSS, backref='impacts')
+    impact_score_2 = DoubleField(null=True)
+    base_score_2 = DoubleField(null=True)
+    impact_score_3 = DoubleField(null=True)
+    base_score_3 = DoubleField(null=True)
+    created_ts = DateTimeField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.created_ts = datetime.datetime.now()
+        super(Impact, self).save(*args, **kwargs)
+
+    class Meta:
+        database = db_connection.get_db()
+        db_table = 'impact'
+
+def store_impact(cve_id, impact_score_2, base_score_2, impact_score_3, base_score_3):
+    impact_score_2 = val_to_none(impact_score_2, 'double')
+    impact_score_3 = val_to_none(impact_score_3, 'double')
+    base_score_2 = val_to_none(base_score_2, 'double')
+    base_score_3 = val_to_none(base_score_3, 'double')
+    with db_connection.get_db().atomic():
+        record = Impact.create(cve_id=cve_id, impact_score_2=impact_score_2, base_score_2=base_score_2, impact_score_3=impact_score_3, base_score_3=base_score_3)
+        record.save()
+        # print('Saved impact')
+
+
 def create_tables(database):
-    models = [CVSS]
+    models = [CVSS,Impact]
     with database.atomic():
         database.drop_tables(list(reversed(models)), safe=True)
         print('creating')
