@@ -62,6 +62,28 @@ source <YOUR_ENV_NAME>/bin/activate
 ```
 If you want to get out of the venv use  `deactivate`
 
+Extracting all the CVE from the above URL
+
+```python3 extractdata.py```
+
+Once the PostgreSQL has been setup by running the above install PostgreSQL commands, we would create a Database connection to the above nvddb database through python code.
+
+```python3 db_connection.py```
+
+This would create a Database connection to nvddb. Also I would recommend you to download pgadmin, create database connection and use that as sa tool to retrieve,analyze and query onto the data.
+
+Once the DB connection is setup we would create database tables using ```peewee``` Peewee is ORM tool for python.
+Refer the link for more details : http://docs.peewee-orm.com/en/latest/
+
+Import all the requirements from Requirements.txt file and after that run the below command
+
+```python3 tables.py```
+
+Once the table is created we would run the parse.py for inserting and retrieve data into our database nvddb. Also parse.py contains a method which would collect all the json data into schema.txt for lookup and testing purpose.
+
+```python3 parse.py```
+
+
 
 
 
