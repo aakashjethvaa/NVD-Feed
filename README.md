@@ -85,6 +85,8 @@ Once the table is created we would run the parse.py for inserting and retrieve d
 
 ```python3 parse.py```
 
+Once we have pgadmin set up, we can run live queries to retrieve the data. We can also use our local system instead of Pgadmin. I have included #### Query #### named file which has list of all the query to be perform on the nvddb database
+
 
 
 
