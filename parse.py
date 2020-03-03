@@ -35,3 +35,18 @@ for file in files:
     jsonfile.close()
 
 # End 
+
+for cves in all_cves:
+
+    cve_id = cves['cve']['CVE_data_meta']['ID']
+    description=""
+    for descriptions in cves['cve']['description']['description_data']:
+                description = description + descriptions['value']
+    published_date = cves['publishedDate']
+    last_modified_date = cves['lastModifiedDate']
+
+    # print('published_date ' + published_date + 'description ' + description + 'last_modified_date' + last_modified_date + 'cve_id' + cve_id)
+    
+    cvss = tables.store_cvss(cve_id, description, published_date, last_modified_date)
+    
+

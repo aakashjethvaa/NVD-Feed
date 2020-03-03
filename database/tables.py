@@ -4,7 +4,7 @@ import sys
 import datetime
 sys.path.append("..")
 from peewee import *
-from database import db_connection
+from nvdfeed.database import db_connection
 
 class CVSS(Model):
 
